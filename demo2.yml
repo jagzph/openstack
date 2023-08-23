@@ -73,7 +73,7 @@ resources:
 #      router_id: { get_resource: router }
 #      subnet: { get_resource: private_subnet }
 
-  my_instance:
+  webserver:
     type: OS::Nova::Server
     depends_on: private_subnet
     properties:
@@ -83,7 +83,7 @@ resources:
         - { get_resource: my_security_group }
       networks: [{ network: { get_resource: private_network }}]
 
-  my_instance1:
+  dbserver:
     type: OS::Nova::Server
     depends_on: private_subnet
     properties:
