@@ -101,4 +101,4 @@ outputs:
 
   instance_private_ip:
     description: Private IP address of the deployed compute instance
-    value: { get_attr: [my_instance, networks, private, 0] }
+    value: { get_attr: [webserver, networks, private, 0] }
