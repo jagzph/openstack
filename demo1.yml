@@ -1,0 +1,59 @@
+heat_template_version: 2016-04-08
+
+description: Template for the third lab
+
+parameters:
+   instance_flavor:
+    type: string
+    label: Instance Flavor
+    description: Instance Flavor to be used.
+    constraints:
+      - allowed_values:
+        - m1.tiny
+        - m1.small
+        - m1.medium
+    default: m1.tiny
+
+   instance_image:
+    type: string
+    label: Instance Image
+    description: Instance image to be used.
+    constraints:
+      - allowed_values:
+        - almalinux-9
+        - ubuntu2004
+        - ubuntu2204
+    default: ubuntu2004
+
+resources:
+
+  private_network:
+    type: OS::Neutron::Net
+    properties:
+      name: private
+
+  private_subnet:
+    type: OS::Neutron::Subnet
+    properties:
+      name: private-subnet
+      network_id: { get_resource: private_network }
+      cidr: 10.10.0.0/28
+      dns_nameservers:
+        - 8.8.8.8
+
+  my_instance:
+    type: OS::Nova::Server
+    properties:
+      flavor: { get_param: instance_flavor }
+      image: { get_param: instance_image }
+      networks: [ "network": { get_resource: private_network } ]
+
+outputs:
+
+#  instance_ip:
+#    description: IP address of the deployed compute instance
+#    value: { get_attr: [my_instance, networks] } 
+
+  instance_private_ip:
+    description: Private IP address of the deployed compute instance
+    value: { get_attr: [my_instance, networks, private, 0] }
