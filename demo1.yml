@@ -1,6 +1,6 @@
 heat_template_version: 2016-04-08
 
-description: Template for the third lab
+description: Single Instance Web Server Template
 
 parameters:
    instance_flavor:
@@ -41,7 +41,7 @@ resources:
       dns_nameservers:
         - 8.8.8.8
 
-  my_instance:
+  webserver:
     type: OS::Nova::Server
     properties:
       flavor: { get_param: instance_flavor }
